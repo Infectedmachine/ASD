@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include "TNode.h"
+#include "Coda.h"
 
 template<class T>
 class Tree {
@@ -20,11 +21,16 @@ public:
 	bool isEmpty() const;
 	int size() const;
 	void print() const;
+	unsigned int depth() const;
+	unsigned int width() const;
+
 private:
 	TNode<T> *root;
 	int treeSize;
 	TNode<T> *search(const T &, TNode<T> *);
 	void print(const std::string &, const TNode<T> *, bool) const;
+	unsigned int _depth(TNode<T> *, unsigned int) const;
+	unsigned int _width(TNode<T> *, unsigned int) const;
 };
 
 template<class T>
@@ -162,5 +168,56 @@ void Tree<T>::print(const std::string &prefix, const TNode<T> *node,
 							node->getChildByPos(i + 1), false);
 			}
 	}
+}
+
+template<class T>
+unsigned int Tree<T>::depth() const {
+	if (this->isEmpty())
+		return 0;
+	else
+		return _depth(this->root, 0) - 1;
+}
+
+template<class T>
+unsigned int Tree<T>::_depth(TNode<T> *node, unsigned int d) const {
+	unsigned int depth = d;
+
+	for(int i = 1; i <= node->getChildsSize(); i++) {
+		unsigned int childDepth = _depth(node->getChildByPos(i), d);
+		if (childDepth > depth)
+			depth = childDepth;
+	}
+	return depth + 1;
+}
+
+template<class T>
+unsigned int Tree<T>::width() const {
+	if (this->isEmpty())
+		return 0;
+	else
+		return _width(this->root, 1);
+}
+
+template<class T>
+unsigned int Tree<T>::_width(TNode<T> *node, unsigned int w) const {
+	unsigned int width = w;
+
+	Coda<TNode<T>*> queue(100);
+	queue.push(node);
+
+	while(!queue.isEmpty()) {
+		unsigned int w1 = queue.sizeCoda();
+		if (w1 > width)
+			width = w1;
+
+		unsigned int j = 0;
+		while (j < w1) {
+			for (int i = 1; i <= queue.readTop()->getChildsSize(); i++)
+				queue.push(queue.readTop()->getChildByPos(i));
+			queue.pull();
+			j++;
+		}
+	}
+	return width;
 }
 #endif /* TREE_H_ */

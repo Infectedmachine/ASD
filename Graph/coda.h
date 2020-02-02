@@ -59,7 +59,7 @@ T Coda<T>::pull() {
 template<class T>
 void Coda<T>::push(const T data) {
 	if (this->maxSize > this->lenght) {
-		this->list.insertEnd();
+		this->list.insertEnd(data);
 		this->lenght++;
 	}
 }
