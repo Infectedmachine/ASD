@@ -18,12 +18,12 @@ class Graph {
 public:
 
 	virtual bool empty() const = 0;
-	virtual void insNode(T&) = 0;
+	virtual void insNode(N&) = 0;
 	virtual void insArc(N, N, P) = 0;
 	virtual void delNode(N) = 0;
 	virtual void delArc(N, N) = 0;
-	virtual LinkedList<N*> Adjacent(N) const = 0;
-	virtual LinkedList<N*> nodeList() const = 0;
+	virtual LinkedList<N> Adjacent(N) const = 0;
+	virtual LinkedList<N> nodeList() const = 0;
 	virtual T readLabel(N) const = 0;
 	virtual void writeLabel(N, T) = 0;
 	virtual P readWeight(N,N) const = 0;
@@ -32,7 +32,7 @@ public:
 	virtual int numNodes() = 0;
 	virtual int numArcs() = 0;
 
-	virtual ~Graph();
+	virtual ~Graph(){};
 
 };
 
