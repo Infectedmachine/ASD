@@ -49,6 +49,8 @@ int main() {
 		for (int i = 1; i <= path.listLenght(); i++)
 			cout << "\n" << "Peso: " << path.readPosition(i).weight << " to: " << path.readPosition(i)._to.getId()+1;
 	}
+	cout << "\ninDegree node 4: " << graph.inDegree(n4);
+	cout << "\noutDegree node 1: " << graph.outDegree(n1);
 }
 
 

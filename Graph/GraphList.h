@@ -68,6 +68,8 @@ public:
 	P readWeight(GNode, GNode) const;
 	void writeWeight(GNode, GNode, P);
 	LinkedList<InfoArc<P>> pathList(GNode, GNode);
+	int inDegree(GNode) const;
+	int outDegree(GNode) const;
 
 	int numNodes() {
 		return this->nodes;
@@ -246,6 +248,32 @@ bool GraphList<E,P>::getPathList(GNode node1, GNode node2, LinkedList<int> &visi
 		list.eraseLast();
 		return false;
 	}
+}
+
+template<class E, class P>
+int GraphList<E,P>::outDegree(GNode node) const {
+	int count = 0;
+
+	if(!matrix[node.getId()].empty)
+		return matrix[node.getId()].arcs.listLenght();
+	else
+		return count;
+}
+
+template<class E, class P>
+int GraphList<E,P>::inDegree(GNode node) const {
+	int count = 0;
+
+	for (int i = 0; i < dim; i++) {
+		if (!matrix[i].empty && i!= node.getId()) {
+			for (int j = 1; j <= matrix[i].arcs.listLenght(); j++) {
+				InfoArc<P> arc = matrix[i].arcs.readPosition(j);
+				if (arc._to.getId() == node.getId())
+					count++;
+			}
+		}
+	}
+	return count;
 }
 
 #endif /* GRAPHLIST_H_ */
